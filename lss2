@@ -1,0 +1,29 @@
+#!/bin/bash
+
+ARGS="ls -lS"
+FILES=""
+
+for arg in "$@"
+do
+	if [[ "$arg" == -* ]]
+	then
+		STR="$arg" # saves argument as string
+		STR=${STR[@]/-/} # should drop the "-" at the front
+		ARGS+=$STR # appends the options to ARGS string
+	elif [ -d "$arg" ]
+	then
+		# found an explicit directory
+		ARGS+="d" # makes sure we don't list directory contents
+		FILES+=" "
+		FILES+=$arg
+	elif [ -e "$arg" ]
+	then
+		# argument isn't an option nor directory
+		# AND it is a file that exists
+		FILES+=" " # adds an extra space just in case
+		FILES+=$arg # appends file to "list" string of filenames
+	fi
+done
+
+ARGS+=$FILES # appends files to the command
+eval $ARGS # evaluates the newly made command

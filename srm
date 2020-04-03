@@ -1,0 +1,41 @@
+#!/bin/bash
+
+if [[ -z "${TRASH}" ]]
+then
+	# TRASH directory path was not defined
+	# makes a safe trash directory in CWD, if one doesn't exist yet
+	trash=$(pwd) # gets current working directory path
+	trash+="/TRASH/" # adds the new trash dir to path
+	mkdir -p TRASH
+	#echo "no env"
+	#echo $trash
+
+	# I CHOSE NOT TO EXPORT AN ENV CALLED TRASH SINCE
+	# THE USER MIGHT HAVE TO SOURCE THIS SCRIPT WHEN RUNNING
+	# AND I DON'T WANT TO MODIFY OTHERS' SHELL PROFILES
+else
+	# A "TRASH" ENVIRONMENT VARIABLE WAS FOUND & DEFINED
+
+	trash=${TRASH} # sets our trash directory to the provided one
+	#echo "found env"
+	#echo $trash
+fi
+
+
+
+if [ ! -d $trash ]
+then
+        echo "The trash directory path provided from the enviroment variable TRASH"
+        echo "does not exists."
+	exit 0
+fi
+
+
+for filename in "$@"
+do
+	if [ -e "$filename" ]
+	then
+		# if filename exists, proceed to move file/directory/node/etc.
+		mv $@ $trash
+	fi
+done

@@ -1,0 +1,6 @@
+#!/bin/bash
+  
+for argument in "$@"
+do
+        chmod +x "$argument"
+done

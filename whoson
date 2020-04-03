@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#who -u | awk '{ print $1 }'
+
+usersFound=($(users))
+
+for user in "${usersFound[@]}"
+do
+        if [[ $(id -G $user | grep '1001') ]]; then
+                printf "%s " "$user"
+        fi
+done
+printf "\n"

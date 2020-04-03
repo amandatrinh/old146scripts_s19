@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# NOTE:
+# I CREATED A TRASH BIN IF ONE IS NOT DEFINED AS A SORT OF SANITY CHECK FOR "trash" script
+# UNLIKE SRM WHERE ONE IS CREATED OUT OF NECESSITY
+
+
+if [[ -z "${TRASH}" ]]
+then
+        # TRASH directory path was not defined
+        # makes a safe trash directory in CWD, if one doesn't exist yet
+        trash=$(pwd) # gets current working directory path
+        trash+="/TRASH/" # adds the new trash dir to path
+        mkdir -p TRASH
+
+        # I CHOSE NOT TO EXPORT AN ENV CALLED TRASH SINCE
+        # THE USER MIGHT HAVE TO SOURCE THIS SCRIPT WHEN RUNNING
+        # AND I DON'T WANT TO MODIFY OTHERS' SHELL PROFILES
+else
+        # A "TRASH" ENVIRONMENT VARIABLE WAS FOUND & DEFINED
+        trash=${TRASH} # sets our trash directory to the provided one
+fi
+
+
+if [ ! -d $trash ]
+then
+        echo "The trash directory path provided from the enviroment variable TRASH"
+        echo "does not exists."
+        exit 0
+fi
+
+
+# REMOVES ALL FILENAMES IN DESIGNATED TRASH BIN
+
+trash+="/*"
+#echo $trash
+rm -r $trash # DELETES ALL THE FILES & SUBDIRECTORIES BUT KEEPS TRASH FOLDER IN TACT

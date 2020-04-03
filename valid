@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for arg in "$@"
+do
+        if [[ "$arg" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]
+        then
+                echo "yes"
+        else
+                echo "no"
+        fi
+done
